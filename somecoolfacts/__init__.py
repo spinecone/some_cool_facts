@@ -1,7 +1,7 @@
 import requests
 import nltk
 import tweepy
-import secrets
+from .secrets import access_token, access_token_secret, consumer_key, consumer_secret
 nltk.download('punkt')
 
 def find_fact():
@@ -18,11 +18,15 @@ def find_fact():
   find_fact()
 
 def tweet(message):
-  auth = tweepy.OAuthHandler(secrets.consumer_key, secrets.consumer_secret)
-  auth.set_access_token(secrets.access_token, secrets.access_token_secret)
+  auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+  auth.set_access_token(access_token, access_token_secret)
   api = tweepy.API(auth)
   auth.secure = True
   print("Posting message {}".format(message))
   api.update_status(status=message)
 
-tweet(find_fact())
+def main():
+  tweet(find_fact())
+
+if __name__ == '__main__':
+  main()
